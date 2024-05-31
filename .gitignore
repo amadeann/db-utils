@@ -1,0 +1,9 @@
+# Ignore virtual environment directory
+db-backup-env/
+
+# pyenv
+.python-version
+
+# config files
+prod_legaldocsforge.config
+sail_legaldocsforge.config
