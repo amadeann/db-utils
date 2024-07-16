@@ -1,9 +1,8 @@
 # Ignore virtual environment directory
 db-backup-env/
 
+# Ignore env directory (where we store our environment variables)
+env/
+
 # pyenv
 .python-version
-
-# config files
-prod_legaldocsforge.config
-sail_legaldocsforge.config

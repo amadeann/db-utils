@@ -23,6 +23,8 @@ def main(config_file):
     private_key_path = config["PRIVATE_KEY_PATH"]
     db_name = config["DB_NAME"]
     db_username = config["DB_USERNAME"]
+    db_host = config.get("DB_HOST", "localhost")
+    db_port = config.get("DB_PORT", 3306)
     db_pass = config["DB_PASS"]
     local_backup_directory = config["LOCAL_BACKUP_DIRECTORY"]
     remote_backup_directory = config["REMOTE_BACKUP_DIRECTORY"]
@@ -41,8 +43,8 @@ def main(config_file):
 
     # Define the commands
     create_dumps_directory_if_not_exists = f"mkdir -p {remote_backup_directory}"
-    no_data_command = f"mysqldump -u {db_username} -p{db_pass} --opt --no-tablespaces --no-data {db_name} {no_data_tables_args} > {remote_file_path}_no_data_tables_structure_only.sql"
-    data_command = f"mysqldump -u {db_username} -p{db_pass} --opt --no-tablespaces {db_name} {ignore_table_args} > {remote_file_path}_data_tables.sql"
+    no_data_command = f"mysqldump  -h {db_host} -P {db_port} -u {db_username} -p{db_pass} --opt --no-tablespaces --no-data {db_name} {no_data_tables_args} > {remote_file_path}_no_data_tables_structure_only.sql"
+    data_command = f"mysqldump  -h {db_host} -P {db_port} -u {db_username} -p{db_pass} --opt --no-tablespaces {db_name} {ignore_table_args} > {remote_file_path}_data_tables.sql"
     merge_command = f"cat {remote_file_path}_no_data_tables_structure_only.sql {remote_file_path}_data_tables.sql > {remote_file_path}.sql"
     cleanup_command = f"rm {remote_file_path}_no_data_tables_structure_only.sql {remote_file_path}_data_tables.sql"
     zip_command = f"cd {remote_backup_directory} && zip {file_name}.zip {file_name}.sql && rm {file_name}.sql"

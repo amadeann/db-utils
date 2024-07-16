@@ -66,6 +66,8 @@ DB_USERNAME = your_db_username
 DB_PASSWORD = your_db_password
 ```
 
+Store config files in `env` folder, so that you can easily .gitignore it, and avoid accidentally pushing them to public repositories.
+
 #### Run the Script
 
 ```sh
