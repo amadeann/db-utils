@@ -43,8 +43,8 @@ def main(config_file):
 
     # Define the commands
     create_dumps_directory_if_not_exists = f"mkdir -p {remote_backup_directory}"
-    no_data_command = f"mysqldump  -h {db_host} -P {db_port} -u {db_username} -p{db_pass} --opt --no-tablespaces --no-data {db_name} {no_data_tables_args} > {remote_file_path}_no_data_tables_structure_only.sql"
-    data_command = f"mysqldump  -h {db_host} -P {db_port} -u {db_username} -p{db_pass} --opt --no-tablespaces {db_name} {ignore_table_args} > {remote_file_path}_data_tables.sql"
+    no_data_command = f"mysqldump  -h {db_host} -P {db_port} -u {db_username} -p{db_pass} --opt --no-tablespaces --no-data --set-gtid-purged=OFF {db_name} {no_data_tables_args} > {remote_file_path}_no_data_tables_structure_only.sql"
+    data_command = f"mysqldump  -h {db_host} -P {db_port} -u {db_username} -p{db_pass} --opt --no-tablespaces --set-gtid-purged=OFF {db_name} {ignore_table_args} > {remote_file_path}_data_tables.sql"
     merge_command = f"cat {remote_file_path}_no_data_tables_structure_only.sql {remote_file_path}_data_tables.sql > {remote_file_path}.sql"
     cleanup_command = f"rm {remote_file_path}_no_data_tables_structure_only.sql {remote_file_path}_data_tables.sql"
     zip_command = f"cd {remote_backup_directory} && zip {file_name}.zip {file_name}.sql && rm {file_name}.sql"
